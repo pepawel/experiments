@@ -230,7 +230,7 @@
         <div id="result" class="result"></div>
         
         <div class="footer">
-            <p>Created by <a href="https://www.pawelpokrywka.com/" target="_blank">Pawel Pokrywka</a></p>
+            <p>Created by <a href="https://www.pawelpokrywka.com/" target="_blank">Paweł Pokrywka</a></p>
         </div>
     </div>
 
@@ -253,6 +253,11 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Checking...';
             resultDiv.style.display = 'none';
+            
+            // Update URL with the entered website URL
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('url', inputUrl);
+            window.history.pushState({}, '', newUrl);
             
             try {
                 // Extract hostname from URL
@@ -282,7 +287,7 @@
                 
             } catch (error) {
                 // Error fetching means not proxied by Cloudflare
-                showResult('Not proxied by Cloudflare', 'error');
+                    showResult('Not proxied by Cloudflare', 'error');
             } finally {
                 // Reset button state
                 submitBtn.disabled = false;
@@ -310,6 +315,18 @@
         // Hide info section by default
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('infoSection').style.display = 'none';
+            
+            // Check for URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlParam = urlParams.get('url');
+            
+            if (urlParam) {
+                const urlInput = document.getElementById('websiteUrl');
+                urlInput.value = urlParam;
+                
+                // Auto-check if URL parameter is provided
+                document.getElementById('cloudflareForm').dispatchEvent(new Event('submit'));
+            }
         });
     </script>
 </body>

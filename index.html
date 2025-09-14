@@ -32,24 +32,45 @@
 
         h1 {
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: center;
             font-size: 24px;
             font-weight: 600;
         }
 
+        .brief-description {
+            text-align: left;
+            margin-bottom: 30px;
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .info-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .info-link:hover {
+            text-decoration: underline;
+        }
+
         .info-section {
             background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 6px;
             margin-bottom: 30px;
-            border-left: 4px solid #667eea;
+            border-left: 3px solid #667eea;
+            display: none;
         }
 
         .info-section p {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: #555;
-            line-height: 1.6;
+            line-height: 1.5;
+            font-size: 13px;
         }
 
         .info-section p:last-child {
@@ -61,7 +82,7 @@
             padding: 2px 6px;
             border-radius: 4px;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .info-section a {
@@ -70,24 +91,6 @@
         }
 
         .info-section a:hover {
-            text-decoration: underline;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e1e5e9;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .footer a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
             text-decoration: underline;
         }
 
@@ -176,10 +179,22 @@
             border: 1px solid #b3d7ff;
         }
 
-        .loading {
+        .footer {
             text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
             color: #666;
-            font-style: italic;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -187,10 +202,14 @@
     <div class="container">
         <h1>Cloudflare Subscription Checker</h1>
         
-        <div class="info-section">
-            <p>This tool checks if a website uses a paid Cloudflare subscription by examining the <code>/cdn-cgi/trace</code> endpoint to detect Encrypted Client Hello (ECH) configuration.</p>
+        <div class="brief-description">
+            This tool checks if a website uses a paid Cloudflare subscription. <a href="#" class="info-link" onclick="toggleInfo(); return false;">How does it work?</a>
+        </div>
+        
+        <div class="info-section" id="infoSection">
+            <p>The tool examines the <code>/cdn-cgi/trace</code> endpoint to detect Encrypted Client Hello (ECH) configuration.</p>
             
-            <p><strong>How it works:</strong> Cloudflare allows disabling ECH only in paid plans (<a href="https://developers.cloudflare.com/ssl/edge-certificates/ech/#enable-ech" target="_blank">see documentation</a>). When ECH is disabled (<code>sni=plaintext</code>), it indicates a paid subscription.</p>
+            <p><strong>Technical details:</strong> Cloudflare allows <a href="https://developers.cloudflare.com/ssl/edge-certificates/ech/#enable-ech" target="_blank">disabling ECH only in paid plans</a>. When ECH is disabled (<code>sni=plaintext</code>), it indicates a paid subscription.</p>
         </div>
         
         <form id="cloudflareForm">
@@ -277,6 +296,21 @@
             resultDiv.className = `result ${type}`;
             resultDiv.style.display = 'block';
         }
+        
+        function toggleInfo() {
+            const infoSection = document.getElementById('infoSection');
+            
+            if (infoSection.style.display === 'none' || !infoSection.style.display) {
+                infoSection.style.display = 'block';
+            } else {
+                infoSection.style.display = 'none';
+            }
+        }
+        
+        // Hide info section by default
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('infoSection').style.display = 'none';
+        });
     </script>
 </body>
 </html>

@@ -273,11 +273,11 @@
                 
                 // Check for SNI indicators
                 if (text.includes('sni=plaintext')) {
-                    showResult('100% paid Cloudflare subscription', 'success');
+                    showResult('Paid subscription', 'success');
                 } else if (text.includes('sni=encrypted')) {
-                    showResult('Free or paid Cloudflare subscription', 'info');
+                    showResult('Unable to determine', 'info');
                 } else {
-                    showResult('Unknown error', 'warning');
+                    showResult('Invalid response', 'warning');
                 }
                 
             } catch (error) {
@@ -286,7 +286,7 @@
             } finally {
                 // Reset button state
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Check Cloudflare Status';
+                submitBtn.textContent = 'Check Subscription Status';
             }
         });
         
